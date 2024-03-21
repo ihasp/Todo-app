@@ -44,6 +44,9 @@ export const TodoList: React.FC = () => {
      localStorage.setItem("todos", JSON.stringify(filteredTodos));
    };
 
+     const formatDate = (date: Date) => {
+       return date.toLocaleString();
+     };
 
   return (
     <div className="main-container">
@@ -56,14 +59,14 @@ export const TodoList: React.FC = () => {
         <ul className="card">
           {todos.map((todo) => (
             <li
-              className="card"
+              className=""
               key={todo.id}
               onClick={() => handleToggle(todo.id)}
               style={{
-                textDecoration: todo.completed ? "line-through" : "none", 
+                textDecoration: todo.completed ? "line-through" : "none" 
               }}
             >
-              {todo.text}
+              {todo.text} - {formatDate(new Date(todo.id))}
             </li>
           ))}
         </ul>

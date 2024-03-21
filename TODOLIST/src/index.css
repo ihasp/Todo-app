@@ -30,6 +30,8 @@ a:hover {
 li{
   margin-top: 5px;
   margin-bottom: 5px;
+  font-size: 18px;
+  padding-right: 16px;
 }
 
 li:hover{
