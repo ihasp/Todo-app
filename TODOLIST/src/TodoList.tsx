@@ -38,17 +38,29 @@ export const TodoList: React.FC = () => {
     }
   };
 
+   const handleDeleteClick = () => {
+     const filteredTodos = todos.filter((todo) => !todo.completed);
+     setTodos(filteredTodos);
+     localStorage.setItem("todos", JSON.stringify(filteredTodos));
+   };
+
+
   return (
     <div className="main-container">
       <div>
-        <h1 style={{ textAlign: "center" }}>TODO LIST</h1>
+        <div style={{display:"flex", justifyContent:"center", flexDirection:"row"}}>
+          <h1>TODO LIST</h1>
+          <button className="btn btn-danger" style={{marginLeft:"10px", maxHeight:"37.6px", marginTop:"7px"}}
+                  onClick={handleDeleteClick}>Usuń</button>
+        </div>
         <ul className="card">
           {todos.map((todo) => (
             <li
+              className="card"
               key={todo.id}
               onClick={() => handleToggle(todo.id)}
               style={{
-                textDecoration: todo.completed ? "line-through" : "none",
+                textDecoration: todo.completed ? "line-through" : "none", 
               }}
             >
               {todo.text}
