@@ -12,13 +12,14 @@ export const TodoList: React.FC = () => {
     const storedTodos = localStorage.getItem("todos");
     return storedTodos ? JSON.parse(storedTodos) : [];
   });
-
+  //update localstorage przy zmianie todo
   useEffect(() => {
     localStorage.setItem("todos", JSON.stringify(todos));
   }, [todos]);
 
   const [input, setInput] = useState<string>("");
 
+  //handler do przekreślenia
   const handleToggle = (id: number) => {
     setTodos(
       todos.map((todo) => {
@@ -30,6 +31,7 @@ export const TodoList: React.FC = () => {
     );
   };
 
+  //handler dodania przyciskiem
   const handleClick = () => {
     const newTodo: Item = { id: Date.now(), text: input, completed: false };
     if (newTodo.text !== "") {
@@ -37,7 +39,7 @@ export const TodoList: React.FC = () => {
       setInput("");
     }
   };
-
+  //handler usuwania todo
    const handleDeleteClick = () => {
      const filteredTodos = todos.filter((todo) => !todo.completed);
      setTodos(filteredTodos);
@@ -51,9 +53,9 @@ export const TodoList: React.FC = () => {
   return (
     <div className="main-container">
       <div>
-        <div style={{display:"flex", justifyContent:"center", flexDirection:"row"}}>
+        <div className="col" style={{display:"flex", justifyContent:"center", flexDirection:"row"}}>
           <h1>TODO LIST</h1>
-          <button className="btn btn-danger" style={{marginLeft:"10px", maxHeight:"37.6px", marginTop:"7px"}}
+          <button className="btn btn-danger" style={{marginLeft:"10px", maxHeight:"37.6px", display:"block", marginTop:"7px"}}
                   onClick={handleDeleteClick}>Usuń</button>
         </div>
         <ul className="card">
@@ -80,7 +82,7 @@ export const TodoList: React.FC = () => {
           }}
         >
           <input
-            type="text"
+            type="text"   
             placeholder="Dodaj do listy"
             className="form-control"
             onChange={(e) => setInput(e.currentTarget.value)}
