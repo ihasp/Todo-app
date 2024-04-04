@@ -8,7 +8,7 @@ This is a simple Todo application designed to help you organize your tasks effic
 
 ## Technologies Used
 
-- **Frontend**: HTML, CSS, Typescript,
+- **Frontend**: Typescript, React
 - **Backend**: Node.js, Vite
 - **Database**: Localstorage
 - **UI Frameworks**: Tailwindcss,  Shadcn-ui,  radix-ui
