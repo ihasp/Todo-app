@@ -1,6 +1,16 @@
 import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.css";
-
+import { Button } from "./components/ui/button"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Textarea } from "@/components/ui/textarea";
+import { BellIcon } from "@radix-ui/react-icons";
 interface Item {
   id: number;
   text: string;
@@ -51,50 +61,61 @@ export const TodoList: React.FC = () => {
      };
 
   return (
-    <div className="main-container">
+    <div className="grid w-screen h-screen justify-center">
       <div>
-        <div className="col" style={{display:"flex", justifyContent:"center", flexDirection:"row"}}>
+        <div className="">
           <h1>TODO LIST</h1>
-          <button className="btn btn-danger" style={{marginLeft:"10px", maxHeight:"37.6px", display:"block", marginTop:"7px"}}
-                  onClick={handleDeleteClick}>Usuń</button>
+          <Button className="" onClick={handleDeleteClick} variant={"outline"}>
+            Usuń
+          </Button>
         </div>
-        <ul className="card">
-          {todos.map((todo) => (
-            <li
-              className=""
-              key={todo.id}
-              onClick={() => handleToggle(todo.id)}
-              style={{
-                textDecoration: todo.completed ? "line-through" : "none" 
-              }}
-            >
-              {todo.text} - {formatDate(new Date(todo.id))}
-            </li>
-          ))}
-        </ul>
+        <Card>
+          <CardContent className="grid gap-4">
+            <CardTitle className="mt-4 ml-2 ">Zadania</CardTitle>
+            <div className="flex items-center space-x-4 rounded-md border p-2">
+              <BellIcon />
+              <p className="text-sm font-medium ml-1 pr-6">
+                Twoje zadania na dziś
+              </p>
+            </div>
 
+            <ul>
+              {todos.map((todo) => (
+                <li
+                  className="flex items-center space-x-4 rounded-md border p-4 mt-1"
+                  key={todo.id}
+                  onClick={() => handleToggle(todo.id)}
+                  style={{
+                    textDecoration: todo.completed ? "line-through" : "none",
+                    cursor:"pointer"
+
+                  }}
+                >
+                  {todo.text} - {formatDate(new Date(todo.id))}
+                </li>
+              ))}
+            </ul>
+          </CardContent>
+        </Card>
         <div
           style={{
             maxWidth: "500px",
-            marginTop: "20px",
+            marginTop: "10px",
             marginBottom: "10px",
             display: "flex",
           }}
         >
-          <input
-            type="text"   
-            placeholder="Dodaj do listy"
-            className="form-control"
-            onChange={(e) => setInput(e.currentTarget.value)}
-            value={input}
-          />
-          <button
-            onClick={handleClick}
-            className="btn btn-primary"
-            style={{ marginLeft: "5px" }}
-          >
-            Dodaj
-          </button>
+          <div className="grid w-full gap-2 mt-5">
+            <Textarea
+              placeholder="Dodaj do listy"
+              className="max-h-2"
+              onChange={(e) => setInput(e.currentTarget.value)}
+              value={input}
+            />
+            <Button onClick={handleClick} variant={"outline"}>
+              Dodaj
+            </Button>
+          </div>
         </div>
       </div>
     </div>
