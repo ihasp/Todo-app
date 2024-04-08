@@ -5,8 +5,6 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
-  CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
@@ -74,7 +72,7 @@ export const TodoList: React.FC = () => {
               Twoje zadania na dziś
             </p>
           </div>
-          <Button className="" onClick={handleDeleteClick} variant={"outline"}>
+          <Button onClick={handleDeleteClick} variant={"outline"}>
             Usuń wykonane
           </Button>
           <ul>
