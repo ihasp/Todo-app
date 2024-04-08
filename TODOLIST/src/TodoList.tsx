@@ -62,27 +62,22 @@ export const TodoList: React.FC = () => {
 
   return (
     <div
-      className="grid w-screen h-screen justify-center"
+      className="grid grid-cols-1 md:grid-cols-4 grid-rows-3 w-screen h-screen justify-center"
       style={{ overflowX: "hidden" }}
     >
-
-      <Card className="mt-4" style={{minWidth:"15em"}}>
+      <Card className="m-3 shadow-md row-span-3" style={{ minWidth: "15em" }}>
         <CardContent className="grid gap-2">
-
           <CardTitle className="mt-4 ml-2 ">Zadania</CardTitle>
-
           <div className="flex items-center space-x-4 rounded-md border p-2 mt-2">
             <BellIcon />
             <p className="text-sm font-medium ml-1 mb-0 pr-6">
               Twoje zadania na dziś
             </p>
-
           </div>
           <Button className="" onClick={handleDeleteClick} variant={"outline"}>
             Usuń wykonane
           </Button>
           <ul>
-
             {todos.map((todo) => (
               <li
                 className="flex items-center space-x-4 rounded-md border p-3 mt-2"
@@ -93,31 +88,27 @@ export const TodoList: React.FC = () => {
                   cursor: "pointer",
                 }}
               >
-                <p className="basis-3/4 ml-2" style={{ maxWidth: "15em" }}>
-                  {todo.text}
-                </p>
-
+                <p className="basis-3/4 ml-2">{todo.text}</p>
                 <CardDescription>
-                  <p className="basis-1/4 " style={{}}> 
-                    {formatDate(new Date(todo.id))}
-                  </p>
+                  <p className="basis-1/4">{formatDate(new Date(todo.id))}</p>
                 </CardDescription>
-
               </li>
             ))}
           </ul>
         </CardContent>
       </Card>
-
-
-      <div className="grid w-full gap-2 mt-5 mb-5">
+      <div className="m-3">
         <Textarea
           placeholder="Dodaj do listy"
           className="max-h-2"
           onChange={(e) => setInput(e.currentTarget.value)}
           value={input}
         />
-        <Button onClick={handleClick} variant={"outline"}>
+        <Button
+          className="w-full mt-2"
+          onClick={handleClick}
+          variant={"outline"}
+        >
           Dodaj
         </Button>
       </div>
