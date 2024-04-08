@@ -1,6 +1,14 @@
 import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.css";
-
+import { Button } from "./components/ui/button"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardTitle,
+} from "@/components/ui/card";
+import { Textarea } from "@/components/ui/textarea";
+import { BellIcon } from "@radix-ui/react-icons";
 interface Item {
   id: number;
   text: string;
@@ -51,51 +59,56 @@ export const TodoList: React.FC = () => {
      };
 
   return (
-    <div className="main-container">
-      <div>
-        <div className="col" style={{display:"flex", justifyContent:"center", flexDirection:"row"}}>
-          <h1>TODO LIST</h1>
-          <button className="btn btn-danger" style={{marginLeft:"10px", maxHeight:"37.6px", display:"block", marginTop:"7px"}}
-                  onClick={handleDeleteClick}>Usuń</button>
-        </div>
-        <ul className="card">
-          {todos.map((todo) => (
-            <li
-              className=""
-              key={todo.id}
-              onClick={() => handleToggle(todo.id)}
-              style={{
-                textDecoration: todo.completed ? "line-through" : "none" 
-              }}
-            >
-              {todo.text} - {formatDate(new Date(todo.id))}
-            </li>
-          ))}
-        </ul>
-
-        <div
-          style={{
-            maxWidth: "500px",
-            marginTop: "20px",
-            marginBottom: "10px",
-            display: "flex",
-          }}
+    <div
+      className="grid grid-cols-1 md:grid-cols-4 grid-rows-3 w-screen h-screen justify-center"
+      style={{ overflowX: "hidden" }}
+    >
+      <Card className="m-3 shadow-md row-span-3" style={{ minWidth: "15em" }}>
+        <CardContent className="grid gap-2">
+          <CardTitle className="mt-4 ml-2 ">Zadania</CardTitle>
+          <div className="flex items-center space-x-4 rounded-md border p-2 mt-2">
+            <BellIcon />
+            <p className="text-sm font-medium ml-1 mb-0 pr-6">
+              Twoje zadania na dziś
+            </p>
+          </div>
+          <Button onClick={handleDeleteClick} variant={"outline"}>
+            Usuń wykonane
+          </Button>
+          <ul>
+            {todos.map((todo) => (
+              <li
+                className="flex items-center space-x-4 rounded-md border p-3 mt-2"
+                key={todo.id}
+                onClick={() => handleToggle(todo.id)}
+                style={{
+                  textDecoration: todo.completed ? "line-through" : "none",
+                  cursor: "pointer",
+                }}
+              >
+                <p className="basis-3/4 ml-2">{todo.text}</p>
+                <CardDescription>
+                  <p className="basis-1/4">{formatDate(new Date(todo.id))}</p>
+                </CardDescription>
+              </li>
+            ))}
+          </ul>
+        </CardContent>
+      </Card>
+      <div className="m-3">
+        <Textarea
+          placeholder="Dodaj do listy"
+          className="max-h-2"
+          onChange={(e) => setInput(e.currentTarget.value)}
+          value={input}
+        />
+        <Button
+          className="w-full mt-2"
+          onClick={handleClick}
+          variant={"outline"}
         >
-          <input
-            type="text"   
-            placeholder="Dodaj do listy"
-            className="form-control"
-            onChange={(e) => setInput(e.currentTarget.value)}
-            value={input}
-          />
-          <button
-            onClick={handleClick}
-            className="btn btn-primary"
-            style={{ marginLeft: "5px" }}
-          >
-            Dodaj
-          </button>
-        </div>
+          Dodaj
+        </Button>
       </div>
     </div>
   );
