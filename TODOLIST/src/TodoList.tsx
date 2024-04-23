@@ -29,7 +29,7 @@ export const TodoList: React.FC = () => {
     const storedTodos = localStorage.getItem("todos");
     if (storedTodos) {
       const parsedTodos: Item[] = JSON.parse(storedTodos);
-      return filterOldTodos(parsedTodos); // Use filterOldTodos function
+      return filterOldTodos(parsedTodos); 
     }
     return [];
   });
@@ -45,12 +45,9 @@ export const TodoList: React.FC = () => {
   }, [todos]);
 
     useEffect(() => {
-      // Set a timeout to hide the alert after 5 seconds (adjust as needed)
       const timeout = setTimeout(() => {
         setShowAlert(false);
-      }, 5000); // 5000 milliseconds = 5 seconds
-
-      // Clean up the timeout when the component unmounts or showAlert changes
+      }, 5000); 
       return () => clearTimeout(timeout);
     }, [showAlert]);
 
