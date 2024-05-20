@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "bootstrap/dist/css/bootstrap.css";
+import './TodoList.css';
 import { Button } from "./components/ui/button";
 import {
   Card,
@@ -84,54 +84,58 @@ export const TodoList: React.FC = () => {
   };
 
   return (
-    <div
-      className="grid grid-cols-1 md:grid-cols-4 grid-rows-3 w-screen h-screen justify-center"
-      style={{ overflowX: "hidden" }}
-    >
+    <div className="maindiv grid grid-cols-1 md:grid-cols-4 grid-rows-3 w-screen h-screen justify-center">
       {showAlert && (
-        <Alert className="col-span-4 row-span-3 absolute z-50 outline-4 mt-3 max-w-xl shadow-md" style={{marginLeft:"49em"}}>
+        <Alert
+          className="transparent-bg col-span-4 row-span-3 absolute z-50 outline-4 mt-3 max-w-xl"
+          style={{ marginLeft: "50em" }}
+        >
           <Info className="h-14 w-4" />
           <AlertTitle>Aplikacja uruchomiona/Refresh</AlertTitle>
-          <AlertDescription>Możesz dodać swoje zadania, które po jednym dniu znikną same!</AlertDescription>
+          <AlertDescription>
+            Możesz dodać swoje zadania, które po jednym dniu znikną same!
+          </AlertDescription>
         </Alert>
       )}
 
-      <Card className="m-3 shadow-md row-span-3" style={{ minWidth: "15em" }}>
-        <CardContent className="grid gap-2">
-          <CardTitle className="mt-4 ml-2 ">Zadania</CardTitle>
-          <div className="flex items-center space-x-4 rounded-md border p-2 mt-2">
-            <BellIcon />
-            <p className="text-sm font-medium ml-1 mb-0 pr-6">
-              Twoje zadania na dziś
-            </p>
-          </div>
-          <Button onClick={handleDeleteClick} variant={"outline"}>
-            Usuń wykonane
-          </Button>
-          <ul>
-            {todos.map((todo) => (
-              <li
-                className="flex items-center space-x-4 rounded-md border p-3 mt-2"
-                key={todo.id}
-                onClick={() => handleToggle(todo.id)}
-                style={{
-                  textDecoration: todo.completed ? "line-through" : "none",
-                  cursor: "pointer",
-                }}
-              >
-                <p className="basis-3/4 ml-2">{todo.text}</p>
-                <CardDescription>
-                  <p className="basis-1/4">{formatDate(new Date(todo.id))}</p>
-                </CardDescription>
-              </li>
-            ))}
-          </ul>
-        </CardContent>
+      <Card className="h-fit transparent-bg m-3 row-span-3 rounded-md">
+        <Card className="flex-auto m-3 row-span-3 rounded-md">
+          <CardContent className="grid gap-2">
+            <CardTitle className="mt-4 ml-2 ">Zadania</CardTitle>
+            <div className="flex items-center space-x-4 rounded-md border p-2 mt-2">
+              <BellIcon />
+              <p className="text-sm font-medium ml-1 mb-0 pr-6">
+                Twoje zadania na dziś
+              </p>
+            </div>
+            <Button onClick={handleDeleteClick} variant={"outline"}>
+              Usuń wykonane
+            </Button>
+            <ul>
+              {todos.map((todo) => (
+                <li
+                  className="flex items-center space-x-4 rounded-md border p-3 mt-2"
+                  key={todo.id}
+                  onClick={() => handleToggle(todo.id)}
+                  style={{
+                    textDecoration: todo.completed ? "line-through" : "none",
+                    cursor: "pointer",
+                  }}
+                >
+                  <p className="basis-3/4 ml-2">{todo.text}</p>
+                  <CardDescription>
+                    <p className="basis-1/4">{formatDate(new Date(todo.id))}</p>
+                  </CardDescription>
+                </li>
+              ))}
+            </ul>
+          </CardContent>
+        </Card>
       </Card>
-      <div className="card m-3 p-2 shadow-md">
+      <div className="h-fit card m-3 p-3 rounded-md transparent-bg max-w-80">
         <Textarea
           placeholder="Dodaj do listy"
-          className="w-full min-h-36"
+          className="w-full min-h-28 mb-1"
           onChange={(e) => setInput(e.currentTarget.value)}
           value={input}
         />
