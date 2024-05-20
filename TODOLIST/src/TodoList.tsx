@@ -87,7 +87,7 @@ export const TodoList: React.FC = () => {
     <div className="maindiv grid grid-cols-1 md:grid-cols-4 grid-rows-3 w-screen h-screen justify-center">
       {showAlert && (
         <Alert
-          className="transparent-bg col-span-4 row-span-3 absolute z-50 outline-4 mt-3 max-w-xl"
+          className="col-span-4 row-span-3 absolute z-50 outline-4 mt-3 max-w-xl"
           style={{ marginLeft: "50em" }}
         >
           <Info className="h-14 w-4" />
