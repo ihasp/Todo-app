@@ -1,5 +1,6 @@
-# Todo Application
 [![CodeFactor](https://www.codefactor.io/repository/github/ihasp/todo-app/badge)](https://www.codefactor.io/repository/github/ihasp/todo-app)
+# Todo Application
+
 This is a simple Todo application designed to help you organize your tasks efficiently.
 
 ## Features
