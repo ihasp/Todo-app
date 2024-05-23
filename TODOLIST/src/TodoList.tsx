@@ -132,7 +132,7 @@ export const TodoList: React.FC = () => {
           </CardContent>
         </Card>
       </Card>
-      <div className="h-fit card m-3 p-3 rounded-md transparent-bg max-w-80">
+      <div className="h-fit card m-3 p-3 rounded-md transparent-bg">
         <Textarea
           placeholder="Dodaj do listy"
           className="w-full min-h-28 mb-1"
