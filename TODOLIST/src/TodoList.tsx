@@ -92,6 +92,12 @@ export const TodoList: React.FC = () => {
     return date.toLocaleString();
   };
 
+const addToListBasedOnDate = (date: Date): Date => {
+  const newDate = new Date(date);
+  newDate.setDate(date.getDate() + 7);
+  return newDate;
+};
+
   return (
     <div className="maindiv grid grid-cols-1 md:grid-cols-4 grid-auto-rows w-screen h-screen justify-center">
       {showAlert && (
