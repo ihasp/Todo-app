@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import './TodoList.css';
+import "./TodoList.css";
 import { Button } from "./components/ui/button";
 import {
   Card,
@@ -21,7 +21,6 @@ import { BellIcon } from "@radix-ui/react-icons";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Info } from "lucide-react";
 
-
 interface Item {
   id: number;
   text: string;
@@ -38,28 +37,27 @@ export const TodoList: React.FC = () => {
     const storedTodos = localStorage.getItem("todos");
     if (storedTodos) {
       const parsedTodos: Item[] = JSON.parse(storedTodos);
-      return filterOldTodos(parsedTodos); 
+      return filterOldTodos(parsedTodos);
     }
     return [];
   });
 
-    const [input, setInput] = useState<string>("");
-    const [showAlert, setShowAlert] = useState(true);
-    //pozycja menu typu zadania na ekranie
-    const [position, setPosition] = React.useState("bottom");
+  const [input, setInput] = useState<string>("");
+  const [showAlert, setShowAlert] = useState(true);
+  //pozycja menu typu zadania na ekranie
+  const [position, setPosition] = React.useState("bottom");
 
   //update localstorage przy zmianie todo
   useEffect(() => {
     localStorage.setItem("todos", JSON.stringify(todos));
   }, [todos]);
 
-    useEffect(() => {
-      const timeout = setTimeout(() => {
-        setShowAlert(false);
-      }, 5000); 
-      return () => clearTimeout(timeout);
-    }, [showAlert]);
-
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setShowAlert(false);
+    }, 5000);
+    return () => clearTimeout(timeout);
+  }, [showAlert]);
 
   //handler do przekreślenia
   const handleToggle = (id: number) => {
@@ -92,11 +90,11 @@ export const TodoList: React.FC = () => {
     return date.toLocaleString();
   };
 
-const addToListBasedOnDate = (date: Date): Date => {
+  /*const addToListBasedOnDate = (date: Date): Date => {
   const newDate = new Date(date);
   newDate.setDate(date.getDate() + 7);
   return newDate;
-};
+};*/
 
   return (
     <div className="maindiv grid grid-cols-1 md:grid-cols-4 grid-auto-rows w-screen h-screen justify-center">
@@ -162,7 +160,7 @@ const addToListBasedOnDate = (date: Date): Date => {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-56">
-            <DropdownMenuLabel>Wybierz czas zkończenia</DropdownMenuLabel>
+            <DropdownMenuLabel>Wybierz czas zakończenia</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuRadioGroup
               value={position}
@@ -188,4 +186,4 @@ const addToListBasedOnDate = (date: Date): Date => {
       </div>
     </div>
   );
-}
+};
