@@ -11,3 +11,7 @@
 .transparent-bg{
     background-color: #ffffffa1 !important; 
 }
+
+.Card{
+    padding: 0 !important;
+}

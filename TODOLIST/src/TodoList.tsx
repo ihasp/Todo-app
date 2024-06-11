@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import './TodoList.css';
+import "./TodoList.css";
 import { Button } from "./components/ui/button";
 import {
   Card,
@@ -7,11 +7,19 @@ import {
   CardDescription,
   CardTitle,
 } from "@/components/ui/card";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Textarea } from "@/components/ui/textarea";
 import { BellIcon } from "@radix-ui/react-icons";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Info } from "lucide-react";
-
 
 interface Item {
   id: number;
@@ -29,28 +37,27 @@ export const TodoList: React.FC = () => {
     const storedTodos = localStorage.getItem("todos");
     if (storedTodos) {
       const parsedTodos: Item[] = JSON.parse(storedTodos);
-      return filterOldTodos(parsedTodos); 
+      return filterOldTodos(parsedTodos);
     }
     return [];
   });
 
-
-    const [input, setInput] = useState<string>("");
-    const [showAlert, setShowAlert] = useState(true);
-
+  const [input, setInput] = useState<string>("");
+  const [showAlert, setShowAlert] = useState(true);
+  //pozycja menu typu zadania na ekranie
+  const [position, setPosition] = React.useState("bottom");
 
   //update localstorage przy zmianie todo
   useEffect(() => {
     localStorage.setItem("todos", JSON.stringify(todos));
   }, [todos]);
 
-    useEffect(() => {
-      const timeout = setTimeout(() => {
-        setShowAlert(false);
-      }, 5000); 
-      return () => clearTimeout(timeout);
-    }, [showAlert]);
-
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setShowAlert(false);
+    }, 5000);
+    return () => clearTimeout(timeout);
+  }, [showAlert]);
 
   //handler do przekreślenia
   const handleToggle = (id: number) => {
@@ -83,8 +90,14 @@ export const TodoList: React.FC = () => {
     return date.toLocaleString();
   };
 
+  /*const addToListBasedOnDate = (date: Date): Date => {
+  const newDate = new Date(date);
+  newDate.setDate(date.getDate() + 7);
+  return newDate;
+};*/
+
   return (
-    <div className="maindiv grid grid-cols-1 md:grid-cols-4 grid-rows-3 w-screen h-screen justify-center">
+    <div className="maindiv grid grid-cols-1 md:grid-cols-4 grid-auto-rows w-screen h-screen justify-center">
       {showAlert && (
         <Alert
           className="col-span-4 row-span-3 absolute z-50 outline-4 mt-3 max-w-xl"
@@ -93,12 +106,13 @@ export const TodoList: React.FC = () => {
           <Info className="h-14 w-4" />
           <AlertTitle>Aplikacja uruchomiona/Refresh</AlertTitle>
           <AlertDescription>
-            Możesz dodać swoje zadania, które po jednym dniu znikną same!
+            Możesz dodać swoje zadania, które automatycznie znikną po jednym
+            dniu!
           </AlertDescription>
         </Alert>
       )}
-
       <Card className="h-fit transparent-bg m-3 row-span-3 rounded-md">
+        {/*brak flexu nie jest winą typu czy tych stylów /\ \/*/}
         <Card className="flex-auto m-3 row-span-3 rounded-md">
           <CardContent className="grid gap-2">
             <CardTitle className="mt-4 ml-2 ">Zadania</CardTitle>
@@ -132,13 +146,36 @@ export const TodoList: React.FC = () => {
           </CardContent>
         </Card>
       </Card>
-      <div className="h-fit card m-3 p-3 rounded-md transparent-bg max-w-80">
+      <div className="h-fit card m-3 p-3 rounded-md transparent-bg">
         <Textarea
           placeholder="Dodaj do listy"
           className="w-full min-h-28 mb-1"
           onChange={(e) => setInput(e.currentTarget.value)}
           value={input}
         />
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline" className="w-full mt-2">
+              Wybierz typ zadania
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="w-56">
+            <DropdownMenuLabel>Wybierz czas zakończenia</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuRadioGroup
+              value={position}
+              onValueChange={setPosition}
+            >
+              <DropdownMenuRadioItem value="top">Dzień</DropdownMenuRadioItem>
+              <DropdownMenuRadioItem value="bottom">
+                Tydzień
+              </DropdownMenuRadioItem>
+              <DropdownMenuRadioItem value="right">
+                Miesiąc
+              </DropdownMenuRadioItem>
+            </DropdownMenuRadioGroup>
+          </DropdownMenuContent>
+        </DropdownMenu>
         <Button
           className="w-full mt-2"
           onClick={handleClick}
