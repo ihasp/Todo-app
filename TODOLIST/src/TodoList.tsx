@@ -16,6 +16,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+
 import { Textarea } from "@/components/ui/textarea";
 import { BellIcon } from "@radix-ui/react-icons";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
@@ -147,12 +154,21 @@ export const TodoList: React.FC = () => {
         </Card>
       </Card>
       <div className="h-fit card m-3 p-3 rounded-md transparent-bg">
-        <Textarea
-          placeholder="Dodaj do listy"
-          className="w-full min-h-28 mb-1"
-          onChange={(e) => setInput(e.currentTarget.value)}
-          value={input}
-        />
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger className="w-full">
+              <TooltipContent>
+                <p>Wpisz swoje zadanie</p>
+              </TooltipContent>
+              <Textarea
+                placeholder="Dodaj do listy"
+                className="min-w-full min-h-28 mb-1"
+                onChange={(e) => setInput(e.currentTarget.value)}
+                value={input}
+              />
+            </TooltipTrigger>
+          </Tooltip>
+        </TooltipProvider>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="w-full mt-2">
