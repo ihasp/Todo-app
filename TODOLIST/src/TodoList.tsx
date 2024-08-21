@@ -158,7 +158,7 @@ export const TodoList: React.FC = () => {
           <Tooltip>
             <TooltipTrigger className="w-full">
               <TooltipContent>
-                <p>Wpisz swoje zadanie</p>
+                <p>Wpisz swoje zadaniee</p>
               </TooltipContent>
               <Textarea
                 placeholder="Dodaj do listy"
