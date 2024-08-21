@@ -172,7 +172,7 @@ export const TodoList: React.FC = () => {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="w-full mt-2">
-              Wybierz typ zadania
+              Wybierz typ zadaniaa
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-56">
