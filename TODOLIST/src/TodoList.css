@@ -1,17 +1,19 @@
-.App{
+.App {
     margin: 0;
     padding: 0;
     background-image: url('./assets/images/bg.jpg');
 }
-.maindiv{
+
+.maindiv {
     background-color: #00000072;
     font-family: "Open Sans", sans-serif;
     overflow-x: hidden;
 }
-.transparent-bg{
-    background-color: #ffffffa1 !important; 
+
+.transparent-bg {
+    background-color: #ffffffa1 !important;
 }
 
-.Card{
+.Card {
     padding: 0 !important;
 }

@@ -1,12 +1,20 @@
 import React, { useEffect, useState } from "react";
 import "./TodoList.css";
-import { Button } from "./components/ui/button";
+
 import {
   Card,
   CardContent,
   CardDescription,
   CardTitle,
 } from "@/components/ui/card";
+
+import { Input } from "@/components/ui/input";
+import { Button } from "./components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import { BellIcon } from "@radix-ui/react-icons";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Info } from "lucide-react";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -16,10 +24,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Textarea } from "@/components/ui/textarea";
-import { BellIcon } from "@radix-ui/react-icons";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Info } from "lucide-react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface Item {
   id: number;
@@ -27,11 +37,16 @@ interface Item {
   completed: boolean;
 }
 
+const formatDate = (date: Date) => {
+  return date.toLocaleString();
+};
+
 const filterOldTodos = (todoList: Item[]): Item[] => {
   const currentTime = Date.now();
   return todoList.filter((todo) => currentTime - todo.id < 24 * 60 * 60 * 1000);
 };
 
+//main
 export const TodoList: React.FC = () => {
   const [todos, setTodos] = useState<Item[]>(() => {
     const storedTodos = localStorage.getItem("todos");
@@ -44,8 +59,9 @@ export const TodoList: React.FC = () => {
 
   const [input, setInput] = useState<string>("");
   const [showAlert, setShowAlert] = useState(true);
+
   //pozycja menu typu zadania na ekranie
-  const [position, setPosition] = React.useState("bottom");
+  const [typeMenuPosition, setPosition] = React.useState("bottom");
 
   //update localstorage przy zmianie todo
   useEffect(() => {
@@ -59,7 +75,17 @@ export const TodoList: React.FC = () => {
     return () => clearTimeout(timeout);
   }, [showAlert]);
 
-  //handler do przekreślenia
+  /// HANDLE
+
+  //handler dodania przyciskiem do listy
+  const handleClick = () => {
+    const newTodo: Item = { id: Date.now(), text: input, completed: false };
+    if (newTodo.text !== "") {
+      setTodos([...todos, newTodo]);
+      setInput("");
+    }
+  };
+  //handler przekreslania
   const handleToggle = (id: number) => {
     setTodos(
       todos.map((todo) => {
@@ -70,50 +96,33 @@ export const TodoList: React.FC = () => {
       })
     );
   };
-
-  //handler dodania przyciskiem
-  const handleClick = () => {
-    const newTodo: Item = { id: Date.now(), text: input, completed: false };
-    if (newTodo.text !== "") {
-      setTodos([...todos, newTodo]);
-      setInput("");
-    }
-  };
-  //handler usuwania todo
+  //handler usuwania z listy "usun wykonane"
   const handleDeleteClick = () => {
     const filteredTodos = todos.filter((todo) => !todo.completed);
     setTodos(filteredTodos);
     localStorage.setItem("todos", JSON.stringify(filteredTodos));
   };
 
-  const formatDate = (date: Date) => {
-    return date.toLocaleString();
-  };
-
-  /*const addToListBasedOnDate = (date: Date): Date => {
-  const newDate = new Date(date);
-  newDate.setDate(date.getDate() + 7);
-  return newDate;
-};*/
-
   return (
     <div className="maindiv grid grid-cols-1 md:grid-cols-4 grid-auto-rows w-screen h-screen justify-center">
+      {/* glowny div */}
+      {/* alert wyswietlany zaraz po uruchomieniu aplikacji */}
       {showAlert && (
         <Alert
-          className="col-span-4 row-span-3 absolute z-50 outline-4 mt-3 max-w-xl"
-          style={{ marginLeft: "50em" }}
+          className="absolute max-w-fit bottom-5"
+          style={{ marginLeft: "40rem" }}
         >
-          <Info className="h-14 w-4" />
-          <AlertTitle>Aplikacja uruchomiona/Refresh</AlertTitle>
-          <AlertDescription>
-            Możesz dodać swoje zadania, które automatycznie znikną po jednym
-            dniu!
-          </AlertDescription>
+          {/* ciagle potrzebuje zmian */}
+          <Info />
+          <AlertTitle>Aplikacja uruchomiona/refresh</AlertTitle>
+          <AlertDescription>Strona odświeżona</AlertDescription>
         </Alert>
       )}
-      <Card className="h-fit transparent-bg m-3 row-span-3 rounded-md">
+
+      {/* Karta nr 1 */}
+      <Card className="h-fit transparent-bg m-3 rounded-md">
         {/*brak flexu nie jest winą typu czy tych stylów /\ \/*/}
-        <Card className="flex-auto m-3 row-span-3 rounded-md">
+        <Card className="m-3 rounded-md">
           <CardContent className="grid gap-2">
             <CardTitle className="mt-4 ml-2 ">Zadania</CardTitle>
             <div className="flex items-center space-x-4 rounded-md border p-2 mt-2">
@@ -140,19 +149,31 @@ export const TodoList: React.FC = () => {
                   <CardDescription>
                     <p className="basis-1/4">{formatDate(new Date(todo.id))}</p>
                   </CardDescription>
+                  <p className="mr-2">typ</p>
                 </li>
               ))}
             </ul>
           </CardContent>
         </Card>
       </Card>
-      <div className="h-fit card m-3 p-3 rounded-md transparent-bg">
-        <Textarea
-          placeholder="Dodaj do listy"
-          className="w-full min-h-28 mb-1"
-          onChange={(e) => setInput(e.currentTarget.value)}
-          value={input}
-        />
+      {/* Karta nr 2 */}
+      <Card className="h-fit card m-3 p-3 rounded-md transparent-bg">
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger className="w-full">
+              <TooltipContent>
+                <p>Wpisz swoje zadanie</p>
+              </TooltipContent>
+              <Textarea
+                placeholder="Dodaj do listy"
+                className="min-w-full min-h-28 mb-1"
+                onChange={(e) => setInput(e.currentTarget.value)}
+                value={input}
+              />
+            </TooltipTrigger>
+          </Tooltip>
+        </TooltipProvider>
+        {/* Przycisk typ zadania */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="w-full mt-2">
@@ -160,22 +181,19 @@ export const TodoList: React.FC = () => {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-56">
-            <DropdownMenuLabel>Wybierz czas zakończenia</DropdownMenuLabel>
+            <DropdownMenuLabel>
+              <Input id="input-category" placeholder="Wpisz typ zadania" />
+            </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuRadioGroup
-              value={position}
+              value={typeMenuPosition}
               onValueChange={setPosition}
             >
-              <DropdownMenuRadioItem value="top">Dzień</DropdownMenuRadioItem>
-              <DropdownMenuRadioItem value="bottom">
-                Tydzień
-              </DropdownMenuRadioItem>
-              <DropdownMenuRadioItem value="right">
-                Miesiąc
-              </DropdownMenuRadioItem>
+              <DropdownMenuRadioItem value="">Dzień</DropdownMenuRadioItem>
             </DropdownMenuRadioGroup>
           </DropdownMenuContent>
         </DropdownMenu>
+        {/* Przycisk dodania zadania */}
         <Button
           className="w-full mt-2"
           onClick={handleClick}
@@ -183,7 +201,7 @@ export const TodoList: React.FC = () => {
         >
           Dodaj
         </Button>
-      </div>
+      </Card>
     </div>
   );
 };
