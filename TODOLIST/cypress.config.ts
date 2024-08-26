@@ -3,7 +3,11 @@ import { defineConfig } from "cypress";
 export default defineConfig({
   e2e: {
     setupNodeEvents(on, config) {
-      // implement node event listeners here
+      on("after:run", (results) => {
+        console.log(`Wynik testu: ${results}`);
+      });
+
+      return config;
     },
   },
 });
